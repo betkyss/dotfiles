@@ -1,0 +1,21 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 109 109" width="109" height="109">
+	<title>3-dark</title>
+	<defs>
+		<image  width="107" height="107" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGsAAABrCAMAAABHYYw+AAAAAXNSR0IB2cksfwAAAFRQTFRFAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFOB9uAAAABx0Uk5TAAczNTpHJ2Fmcpmlx8xtwOn/AraN0M5nFNM3+rganskAAAJPSURBVHic3ZrZ1qsgDIUxSsXUoVTt+P7veeC3k0OtiOyLs6960/WthA1CEiGcFBFRnEgpk9j8itz+vFw7SlXGvM+LTvmeOVMp7TbmRKRKroqDHupQVFyq7QI8kuK6GGHeKmpWdNyARKqp2xlQp7ZuFHmTeC6iXnTsRTOk00KS1Wk9zZHkQ5OLs/epgqV7UOd8BckqPzuGJvm3976pdQrtourVJKtaXRbnr1yzUp8qyoV5JL56orS+8iLYje/eKK3vfPuNSngDkhUnMNRv2G07lIHNppG2RBnYjEFoE1u8df8Ou5T+Zu/rWn7b1Mp3C49VqGmU9DuYplVPno0b++KpySU7rz/Z59SeJzK49nv1S/koi4EyaDXKYgAPPjX0YsCwRoEp1xuTi04KFtYgsKBh9QMLHFYvsIAm7PS24rEJjNK6eT6ZKMSh21f9TKIKcxJ+qn0kMQrtDCuOUCl8JTG4C60eTiwBKK1Li9ohlsssmK2DUAVhVXbBUsRymQVLrTXG1ZgQOlhzZBCU1hloJ1uZ3Rz8e/JikaA9iLU3rFD3wqFyEjHG8sb0sUhgrERIGEv+tyzkeiF9iNxf0HMDeB4iz3nk9wv6XUbeN5D3KOT9EHnvhd7nke8U5PsL+a6EvpeRdQBkfQNat0HWo6B1NmT9EFoXRdZ7oXVsZH0e2neA9lOQfSJo/wva10P2K6F9WGh/Gdo3h84DQOccoPMb0LkU6LyNQM4RCeh8lEDOfQnoPJs7zYP0oIHmDzsaaq7SCjcv+ifYHOxDqPnel7zmlv8BbFFGlELiCB8AAAAASUVORK5CYII="/>
+	</defs>
+	<style>
+		.s0 { fill: #f6a120 } 
+		.s1 { fill: #ffb14a } 
+		.s2 { fill: #db123d } 
+	</style>
+	<g id="3">
+		<path id="Layer" class="s0" d="m53.6 106.1c-28.5 0-51.6-23.1-51.6-51.7 0-28.5 23.1-51.6 51.6-51.6 28.6 0 51.7 23.1 51.7 51.6 0 28.6-23.1 51.7-51.7 51.7z"/>
+		<path id="Layer" class="s1" d="m4 40.1c-3.1 10.7-2.6 22 1.2 32.4 3.9 10.4 11 19.2 20.3 25.3 9.3 6 20.3 8.9 31.3 8.2 11.1-0.7 21.6-4.9 30.1-12.1-5.5 1.3-26.3 5.6-47.9-5.8-28-14.8-34.2-44-35-48z"/>
+		<path id="Layer" class="s2" d="m55 36.7l4.4 0.6-3.2 3.1 0.7 4.4-3.9-2.1-4 2 0.8-4.4-3.1-3.1 4.4-0.6 2-3.9 1.9 4z"/>
+		<path id="Layer" class="s2" d="m39.3 61.4l4.4 0.7-3.2 3 0.6 4.4-3.8-2.1-4 2 0.8-4.4-3.1-3.1 4.4-0.6 2-3.9 1.9 4z"/>
+		<path id="Layer" class="s2" d="m76.4 58l4.3 0.7-3.2 3 0.7 4.4-3.9-2.1-3.9 2 0.8-4.4-3.1-3.1 4.3-0.6 2.1-3.9 1.9 4z"/>
+		<path id="Layer" class="s1" d="m60 17.3c14.7 1.1 22.4 11.3 28.3 23.6 2.5 5.2 10.3 0.6 7.8-4.5-7.4-15.5-18.2-26.7-36.1-28.1-5.7-0.4-5.7 8.5 0 9z"/>
+		<path id="Layer" class="s1" d="m91.9 53.8l0.9 1.9c0.5 0.8 1.2 1.4 1.9 1.8 0.8 0.4 1.7 0.5 2.6 0.4 0.9-0.1 1.7-0.5 2.4-1 0.6-0.6 1.1-1.4 1.4-2.2q0.1-0.5 0.1-0.9 0-0.5-0.1-0.9 0-0.5-0.2-0.9-0.1-0.4-0.3-0.8l-1-1.9c-0.4-0.8-1.1-1.4-1.9-1.8-0.8-0.4-1.7-0.5-2.5-0.4-0.9 0.1-1.7 0.5-2.4 1.1-0.7 0.5-1.2 1.3-1.4 2.2q-0.1 0.4-0.1 0.8 0 0.5 0 0.9 0.1 0.5 0.2 0.9 0.2 0.4 0.4 0.8z"/>
+	</g>
+	<use id="Слой 1" style="opacity: .3" href="#img1" x="0" y="0"/>
+</svg>

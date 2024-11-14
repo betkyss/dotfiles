@@ -1,0 +1,17 @@
+/**
+ *
+ * Author : Lunar Null ()
+ * Github : 
+ * 
+ * Colors
+ **/
+
+* {
+    background:     #242424FF;
+    background-alt: #353535FF;
+    foreground:     #abb2bfFF;
+    selected:       #81a1c1FF;
+    active:         #bf616aFF;
+    urgent:         #C2454EFF;
+}
+
