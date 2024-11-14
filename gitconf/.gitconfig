@@ -1,8 +1,0 @@
-[user]
-	name = betkyss
-	email = betkoandrey@gmail.com
-	signingkey = E1ABA86DAE1289F0C5C649FC6EFC3DFA7201E91E
-[gpg]
-	program = gpg2
-[commit]
-	gpgSign = false
