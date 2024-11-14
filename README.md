@@ -32,3 +32,5 @@ $ cd dotfiles
 ```
 $ stow .
 ```
+
+![Превью](image.png)
