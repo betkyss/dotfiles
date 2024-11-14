@@ -1,0 +1,100 @@
+* {
+  border: none;
+  border-radius: 0;
+  font-family: Dejavu Sans Mono, FontAwesome, Material Icons, sans-serif;
+  font-size: 16px;
+  min-height: 0;
+  opacity: 1.0;
+}
+
+#workspaces {
+  margin: 18px;
+  margin-bottom: 0;
+  background: #242424;
+  padding: 5px;
+  border-radius: 20px;
+  padding-left: 26px;
+  padding-right: 26px;
+}
+
+#workspaces button {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+#workspaces button:nth-child(1) {
+  background-image: url("./images/1-dark.svg");
+}
+#workspaces button:nth-child(1).active {
+  background-image: url("./images/1.svg");
+}
+
+#workspaces button:nth-child(2) {
+  background-image: url("./images/2-dark.svg");
+}
+#workspaces button:nth-child(2).active {
+  background-image: url("./images/2.svg");
+}
+
+#workspaces button:nth-child(3) {
+  background-image: url("./images/3-dark.svg");
+}
+#workspaces button:nth-child(3).active {
+  background-image: url("./images/3.svg");
+}
+
+#workspaces button:nth-child(4) {
+  background-image: url("./images/4-dark.svg");
+}
+#workspaces button:nth-child(4).active {
+  background-image: url("./images/4.svg");
+}
+
+#workspaces button:nth-child(5) {
+  background-image: url("./images/5-dark.svg");
+}
+#workspaces button:nth-child(5).active {
+  background-image: url("./images/5.svg");
+}
+
+#workspaces button:nth-child(6) {
+  background-image: url("./images/6-dark.svg");
+}
+#workspaces button:nth-child(6).active {
+  background-image: url("./images/6.svg");
+}
+
+#workspaces button:nth-child(7) {
+  background-image: url("./images/7-dark.svg");
+}
+#workspaces button:nth-child(7).active {
+  background-image: url("./images/7.svg");
+}
+
+#workspaces button:nth-child(8) {
+  background-image: url("./images/8-dark.svg");
+}
+#workspaces button:nth-child(8).active {
+  background-image: url("./images/8.svg");
+}
+
+#workspaces button:nth-child(9) {
+  background-image: url("./images/9-dark.svg");
+}
+#workspaces button:nth-child(9).active {
+  background-image: url("./images/9.svg");
+}
+
+#workspaces button:nth-child(10) {
+  background-image: url("./images/10-dark.svg");
+}
+#workspaces button:nth-child(10).active {
+  background-image: url("./images/10.svg");
+}
+
+
+window#waybar {
+  background: rgba(0,0,0,0);
+}
+
