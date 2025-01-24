@@ -16,7 +16,7 @@ font:
   bold_italic:
     family: RobotoMono
     style: Bold Italic
-  size: 12
+  size: 10
 
 colors:
   primary:

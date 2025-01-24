@@ -118,9 +118,25 @@ alias toff='synclient TouchpadOff=1'
 alias ton='synclient TouchpadOff=0'
 alias hdmi2='xrandr --output HDMI-A-0  --mode 1920x1080 && xrandr --output eDP --off'
 
-alias sass='node-sass assets/scss/main.scss assets/styles/main.css -w'
-alias sass-media='node-sass assets/scss/media.scss assets/styles/media.css -w'
+alias aw='alacritty --working-directory "$(pwd)" & exec $SHELL'
+
+alias sass='node-sass scss/main.scss css/main.css -w'
+alias sass-media='node-sass scss/media.scss css/media.css -w'
 alias bsync='browser-sync start --server --files "../**/*" --index "index.html" --directory'
 alias ssht='ssh ssh root@45.141.78.24'
 
+alias hhbot='python ~/Projects/Personal/hhbot/restart.py'
+
+alias h="history | grep "
+
 PS1="%F{yello}[%F{blue}%n%F{green}@%F{red}%m%f%F{yello}]:%F{green}%~%f$ "
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

@@ -33,8 +33,9 @@ font-2 = FontAwesome6Free:style=Regular:size=12;2
 font-3 = FontAwesome6Brands:style=Regular:size=12;2
 
 modules-left = xworkspaces 
-modules-center = date 
-modules-right = filesystem battery cpu memory volume systray
+modules-center =  lang date 
+; modules-right = filesystem battery cpu memory light volume systray 
+modules-right = filesystem battery light volume systray 
 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -83,17 +84,15 @@ label-mounted =  %{F#b1b1b1}%mountpoint%%{F-} %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground}
 
-[module/pulseaudio]
-type = internal/pulseaudio
 
-format-volume-prefix = "VOL "
-format-volume-prefix-foreground = ${colors.primary}
-format-volume = <label-volume>
 
-label-volume = %percentage%%
-
-label-muted = muted
-label-muted-foreground = ${colors.disabled}
+[module/light]
+type = custom/script
+exec = ~/.config/polybar/plugins/polybar_light
+interval = 0
+click-left = bash -c '[ -f /tmp/redshift_status ] && (redshift -x; rm /tmp/redshift_status) || (redshift -O 3500; touch /tmp/redshift_status)'
+scroll-down = light -A 10
+scroll-up = light -U 10
 
 [module/xkeyboard]
 type = internal/xkeyboard
@@ -141,7 +140,7 @@ label-connected = %{F#F0C674}%ifname%%{F-} %local_ip%
 [module/date]
 type = custom/script
 
-exec = date -u "+%d %h %H:%M:%S"
+exec = date "+%d %h %H:%M:%S" # Удаляем -u для локального времени
 interval = 1
 
 label = %output%
@@ -153,14 +152,21 @@ pseudo-transparency = true
 
 ; vim:ft=dosini
 
-[module/volume]
+[module/lang]
 type = custom/script
-exec = bash ~/.local/bin/polybar_pulseaudio
+exec = bash ~/.config/polybar/plugins/polybar_lang
 interval = 0
 
-click-left = pactl set-sink-mute 0 toggle
-scroll-up = pactl set-sink-volume 0 +10%
-scroll-down = pactl set-sink-volume 0 -10%
+[module/volume]
+
+type = custom/script
+exec = bash ~/.config/polybar/plugins/polybar_pipewire
+exec-if = pw-cli info @DEFAULT_AUDIO_SINK@ &>/dev/null
+interval = 0
+
+click-left = wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+scroll-down = wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+
+scroll-up = wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-
 
 
 [module/battery]
