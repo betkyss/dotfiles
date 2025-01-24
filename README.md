@@ -27,10 +27,17 @@ $ git clone git@github.com:betkyss/dotfiles.git
 $ cd dotfiles
 ```
 
-затем используйте GNU stow для создания символических ссылок
+Затем используйте GNU stow для создания символических ссылок
 
 ```
 $ stow .
+```
+
+## Как обновлять
+```
+$ git add .
+$ git commit -m ""
+$ git push
 ```
 
 ![Превью](image.png)
