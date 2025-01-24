@@ -50,7 +50,7 @@ cursor = "#d8dee9"
 text = "#2e3440"
 
 [font]
-size = 12
+size = 9 
 
 [font.bold]
 family = "RobotoMono"

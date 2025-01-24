@@ -1,13 +1,13 @@
 #!/bin/sh
 
-# sxhkd &
-# exec bspwm &
+# Устанавливаем параметры для тачпада
+xinput set-prop 9 "Synaptics Scrolling Distance" -300 -30
 
-# Завершаем все предыдущие запущенные компоненты
-# pkill xfce4-session
-# Запускаем xfce
-# exec startxfce4
-# exec dwm 
-exec i3 & 
-exec polybar
-# exec polybar --config ~/.config/polybar/config
+# Завершаем предыдущие запущенные экземпляры polybar
+pkill polybar
+
+# Запускаем polybar
+polybar example &
+
+# Запускаем i3
+exec i3

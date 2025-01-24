@@ -8,18 +8,20 @@ vim.opt.relativenumber = true
 -- Autocmd commands
 -- -- Persistent Folds
 local augroup = vim.api.nvim_create_augroup
-local save_fold = augroup("Persistent Folds", { clear = true }) vim.api.nvim_create_autocmd("BufWinLeave", { pattern = "*.*",
-	callback = function()
-		vim.cmd.mkview()
-	end,
-	group = save_fold,
+local save_fold = augroup("Persistent Folds", { clear = true })
+vim.api.nvim_create_autocmd("BufWinLeave", {
+  pattern = "*.*",
+  callback = function()
+    vim.cmd.mkview()
+  end,
+  group = save_fold,
 })
 vim.api.nvim_create_autocmd("BufWinEnter", {
-	pattern = "*.*",
-	callback = function()
-		vim.cmd.loadview({ mods = { emsg_silent = true } })
-	end,
-	group = save_fold,
+  pattern = "*.*",
+  callback = function()
+    vim.cmd.loadview({ mods = { emsg_silent = true } })
+  end,
+  group = save_fold,
 })
 -- Persistent Cursor
 vim.api.nvim_create_autocmd("BufReadPost", {
@@ -53,12 +55,21 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 })
 
 lvim.plugins = {
-  {"betkyss/nvim_onedark_theme"},
-  {"mattn/emmet-vim"},
-  {"powerman/vim-plugin-ruscmd"},
+  { "betkyss/nvim_onedark_theme" },
+  { "mattn/emmet-vim" },
+  { "powerman/vim-plugin-ruscmd" },
+ { "iamcco/markdown-preview.nvim", build = "cd app && yarn install" }
 }
 
 -- vim.cmd[[let g:user_emmet_leader_key='<C-e>']]
+
+
 lvim.colorscheme = "onedark"
 
 vim.opt.termguicolors = true
+
+
+vim.g.mkdp_auto_start = 1  -- Автоматически запускать предпросмотр при открытии файла markdown
+vim.g.mkdp_auto_close = 1  -- Закрывать предпросмотр, когда переходите в другой файл
+vim.g.mkdp_refresh_slow = 0  -- Автоматически обновлять предпросмотр
+vim.g.mkdp_browser = "firefox"  -- Указать браузер для предпросмотра

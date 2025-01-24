@@ -5,10 +5,12 @@ set $mod Mod4
 font pango:monospace 8
 
 # Autostart programs
+# exec feh --bg-fill ~/Media/Images/Wallpapers/shark_main.jpg
 exec feh --bg-fill ~/Media/Images/Wallpapers/242424.jpg
 exec ~/.local/share/picom-pijulius/build/src/picom --config ~/.config/picom/config-pijulius -b --backend glx --vsync --xrender-sync-fence --glx-no-rebind-pixmap --use-damage --glx-no-stencil 
 exec xset r rate 200 30
 exec setxkbmap -layout 'us,ru' -option 'grp:alt_shift_toggle,grp_led:scroll'
+exec --no-startup-id ~/.local/bin/toggle_blind_mode.sh
 
 # i3 system options
 exec --no-startup-id dex --autostart --environment i3
@@ -18,17 +20,18 @@ exec --no-startup-id nm-applet
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 
-# bindsym $mod+F1 exec pactl set-sink-mute 0 toggle
-# bindsym $mod+F2 exec pactl set-sink-volume 0 -10%
-# bindsym $mod+F3 exec pactl set-sink-volume 0 +10%
+# PipeWire
+bindsym $mod+u exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%- 
+bindsym $mod+i exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+
+bindsym $mod+o exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
-bindsym $mod+F1 exec pactl set-sink-mute 0 toggle
-bindsym $mod+F2 exec pactl set-sink-volume 0 -10%
-bindsym $mod+F3 exec pactl set-sink-volume 0 +10%
+bindsym $mod+Shift+u exec light -U 10
+bindsym $mod+Shift+i exec light -A 10
+bindsym $mod+Shift+o exec ~/.local/bin/toggle_redshift.sh
 
 bindsym $mod+F6 exec bash ~/.local/bin/touchpad_toggle
 
-bindsym $mod+Shift+Escape exec pkill x
+bindsym $mod+Escape exec pkill x
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -62,12 +65,10 @@ bindsym $mod+Shift+q kill
 bindsym $mod+Shift+p exec "bash ~/.config/rofi/launchers/type-3/launcher.sh"
 
 bindsym $mod+Shift+a exec "AmneziaVPN"
-bindsym $mod+Shift+g exec "AmneziaVPN && chromium --profile-directory='Profile 22' https://chatgpt.com/"
-
 
 # custom keybin
 bindsym $mod+Shift+f exec firefox
-bindsym $mod+Shift+o exec obsidian
+# bindsym $mod+Shift+o exec obsidian
 bindsym $mod+Shift+t exec telegram-desktop
 bindsym $mod+Shift+b exec alacritty -e bluetuith 
 bindsym Print exec bash ~/.local/bin/flameshot_clipboard 
@@ -158,12 +159,8 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 
 for_window [class="AmneziaVPN"] move to workspace $ws10
 
-# reload the configuration file
-bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"

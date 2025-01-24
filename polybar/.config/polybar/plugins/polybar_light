@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Конфигурация
+MAX_BARS=5  # Максимальное количество сегментов в полоске
+BRIGHTNESS_STEP=5  # Шаг изменения яркости
+
+# Функция для получения текущей яркости
+get_brightness() {
+    light -G | awk '{print int(($1 + 5) / 10) * 10}'
+}
+
+# Функция для установки яркости
+set_brightness() {
+    local value=$1
+    light -S "$value"
+}
+
+# Генерация полоски для отображения яркости
+render_bar() {
+    local percentage=$1
+    local bars=""
+    local filled=$((percentage * MAX_BARS / 100))
+
+    for ((i=1; i<=MAX_BARS; i++)); do
+        if ((i <= filled)); then
+            bars+="="
+        else
+            bars+="-"
+        fi
+    done
+    echo "$bars"
+}
+
+# Проверка состояния ночного режима через redshift_status
+is_night_mode_on() {
+    if [ -f /tmp/redshift_status ]; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
+
+# Выбор иконки в зависимости от ночного режима
+choose_icon() {
+    if [ "$(is_night_mode_on)" == "true" ]; then
+        echo ""  # Луна
+    else
+        echo ""  # Солнце
+    fi
+}
+
+# Получение текущей яркости и отображение полоски
+current_brightness=$(get_brightness)
+bar=$(render_bar "$current_brightness")
+icon=$(choose_icon)
+echo "$icon $current_brightness% $bar"
