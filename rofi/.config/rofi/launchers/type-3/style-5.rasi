@@ -22,11 +22,11 @@ configuration {
 /*****----- Main Window -----*****/
 window {
     transparency:                "real";
-    location:                    north;
-    anchor:                      north;
+    location:                    center; /* Центрирование окна */
+    anchor:                      center; /* Указывает центр как точку привязки */
     fullscreen:                  false;
     width:                       750px;
-    x-offset:                    0px;
+    x-offset:                    0px; /* Убедитесь, что смещение отключено */
     y-offset:                    0px;
 
     enabled:                     true;

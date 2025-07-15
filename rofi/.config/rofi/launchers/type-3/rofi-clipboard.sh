@@ -15,5 +15,6 @@ theme='style-5'
 
 ## Run
 rofi \
-    -show drun \
+    -modi 'clipboard:greenclip print'\
+    -show clipboard -run-command '{cmd}'\
     -theme ${dir}/${theme}.rasi

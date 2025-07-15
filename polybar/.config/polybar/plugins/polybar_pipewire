@@ -1,4 +1,5 @@
 #!/bin/bash
+exec 2>/dev/null
 
 # Получение текущей громкости через wpctl (PipeWire)
 volume=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{print int($2 * 100)}')
@@ -15,20 +16,17 @@ mute=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | grep MUTED)
 # Создание визуальной шкалы громкости
 bars=""
 if ((volume > 100)); then
-    bars="====="  # Если громкость больше 100, шкала полностью заполнена
+    bars="====="          # Если громкость >100, шкала полностью заполнена
 else
-    percentage=$((volume / 20))  # Деляем громкость на 20, чтобы шкала состояла из 5 символов
-    for ((i=1; i<=percentage; i++)); do
-        bars="${bars}="  # Заполняем шкалу символами "="
-    done
-    for ((i=percentage+1; i<=5; i++)); do
-        bars="${bars}-"  # Оставшиеся символы заполняем "-"
-    done
+    percentage=$((volume / 20))  # Каждые 20 % дают один сегмент (из 5)
+    for ((i = 1; i <= percentage; i++));   do bars+="="; done
+    for ((i = percentage + 1; i <= 5; i++)); do bars+="-"; done
 fi
 
 # Формирование вывода
 if [[ -n $mute ]]; then
     echo " MUTE ${bars}"
 else
-    echo " $volume% ${bars}"
+    echo " ${volume}% ${bars}"
 fi
+
