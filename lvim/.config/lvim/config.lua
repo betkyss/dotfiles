@@ -26,12 +26,13 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
--- Патчим функцию make_position_params, чтобы не вывалив��лось предупреждение
+-- Патчим функцию make_position_params, чтобы не вываливалось предупреждение
 do
   local orig = vim.lsp.util.make_position_params
   vim.lsp.util.make_position_params = function(opts)
-    opts = opts or {}
-    -- по умолчанию используем 'utf-16', можно 'utf-8' или 'utf-32' в зависимости от сервера
+    if type(opts) ~= "table" then
+      opts = {}
+    end
     opts.position_encoding = opts.position_encoding or "utf-16"
     return orig(opts)
   end
@@ -64,7 +65,7 @@ vim.api.nvim_create_autocmd("BufWinEnter", {
   group = save_fold,
 })
 
--- Возврат курсора на последнее место
+-- Возврат курсора на последнее месте
 vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
@@ -121,8 +122,19 @@ lvim.plugins = {
       vim.keymap.set("n", "<Space>r", ":RnvimrToggle<CR>", { silent = true, noremap = true })
     end,
   },
+  -- вот наша новая запись:
+  {
+    "RRethy/vim-illuminate",
+    config = function()
+      require("illuminate").configure({
+        -- оставляем провайдеры LSP + RegEx, убираем treesitter
+        providers = { "lsp", "regex" },
+      })
+    end,
+  },
 }
 
 -- ======================================================================
 -- Keymaps
 -- ======================================================================
+

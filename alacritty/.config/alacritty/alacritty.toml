@@ -72,3 +72,26 @@ style = "Regular"
 x = 15
 y = 15
 
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+# Bindings for Russian layout
+[[keyboard.bindings]]
+key = "С"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "М"
+mods = "Control|Shift"
+action = "Paste"
+
+# [selection]
+# save_to_clipboard = true

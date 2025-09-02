@@ -1,7 +1,27 @@
-#!/bin/bash
+#!/usr/bin/env bash
+prev=""
 
-# Получаем текущую активную раскладку
-layout=$(xkb-switch -p)
+# сразу выводим текущую раскладку
+if layout=$(xkb-switch -p 2>/dev/null); then
+  case "$layout" in
+  ru) out=RU ;;
+  us) out=EN ;;
+  *) out=${layout^^} ;;
+  esac
+  echo "$out"
+  prev=$out
+fi
 
-# Выводим текущую раскладку
-echo ${layout^^}
+# слушаем смены
+xkb-switch -W 2>/dev/null | while read -r layout; do
+  case "$layout" in
+  ru) out=RU ;;
+  us) out=EN ;;
+  *) out=${layout^^} ;;
+  esac
+
+  if [[ $out != "$prev" ]]; then
+    echo "$out"
+    prev=$out
+  fi
+done

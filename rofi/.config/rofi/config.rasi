@@ -100,7 +100,7 @@ configuration {
 	/*---------- Other settings ----------*/
     timeout {
       action: "kb-cancel";
-      delay:  0;
+      delay:  0.0;
     }
 
 	/*---------- Keybindings ----------*/
@@ -178,4 +178,17 @@ configuration {
 	me-accept-entry: "MouseDPrimary";
 	me-accept-custom: "Control+MouseDPrimary";
 */
+	kb-accept-entry: "Control+m,Return,KP_Enter";
+	kb-remove-to-eol: "Control+Shift+Delete";
+	kb-remove-char-back: "BackSpace,Shift+BackSpace";
+	kb-move-char-back: "Left";
+	kb-move-char-forward: "Right";
+	kb-mode-complete: "Alt+l";
+
+	kb-row-up: "Up,Control+k,Control+Cyrillic_el";
+	kb-row-down: "Down,Control+j,Control+Cyrillic_o";
+	kb-row-left: "Control+h,Control+Cyrillic_er";
+	kb-row-right: "Control+l,Control+Cyrillic_de";
+	kb-page-prev: "Page_Up,Control+b,Control+Cyrillic_i";
+	kb-page-next: "Page_Down,Control+f,Control+Cyrillic_a";
 }
