@@ -1,0 +1,60 @@
+/**
+ * Wi-Fi picker theme: reuses main launcher styling, but pinned top-right.
+ */
+
+@import "~/.config/rofi/config/main.rasi"
+
+configuration {
+  modi: "dmenu";
+  show-icons: false;
+}
+
+window {
+  location: northeast;
+  anchor: northeast;
+  x-offset: -10px;
+  y-offset: 42px;
+  width: 420px;
+  height: 520px;
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 10px;
+  border-color: @border;
+}
+
+mainbox {
+  padding: 10px;
+  spacing: 12px;
+  border-radius: 10px;
+  children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+  border: 1px solid;
+  border-radius: 10px;
+  border-color: @border;
+  padding: 8px 10px;
+}
+
+listview {
+  lines: 12;
+  fixed-height: true;
+  dynamic: true;
+  scrollbar: false;
+  spacing: 4px;
+  border-radius: 10px;
+}
+
+element {
+  padding: 6px 8px;
+  border-radius: 10px;
+  border-color: @border;
+}
+
+element selected.normal {
+  border: 1px solid;
+  border-color: @border;
+  border-radius: 10px;
+  background-color: @background;
+  text-color: @foreground;
+}

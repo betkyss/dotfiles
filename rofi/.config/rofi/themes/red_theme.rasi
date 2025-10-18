@@ -1,9 +1,0 @@
-* {
-    background: #ff0000; /* Красный фон */
-    foreground: #ffffff; /* Белый текст */
-    selected: #ff4d4d;   /* Более светлый красный для выделенных элементов */
-    border: 0;
-    padding: 10px;
-    border-radius: 5px;
-}
-

@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+
+# Outputs temperature and utilisation readings for Polybar.
+# Usage: polybar_temp [cpu|gpu|gpu-load]
+
+set -u
+
+to_celsius() {
+    local raw=$1
+    if [[ -z "$raw" ]]; then
+        return 1
+    fi
+    # Strip everything except digits, optional dot and minus sign.
+    raw=${raw//[^0-9\.\-]/}
+    if [[ -z "$raw" ]]; then
+        return 1
+    fi
+    printf "%s°C" "${raw%.*}"
+}
+
+read_sys_thermal() {
+    local prefix=$1
+    local path
+    while IFS= read -r path; do
+        if [[ -r "$path" ]]; then
+            local milli
+            milli=$(<"$path")
+            if [[ "$milli" =~ ^[0-9]+$ ]]; then
+                printf "%s\n" "$((milli / 1000))"
+                return 0
+            fi
+        fi
+    done < <(find /sys/class/thermal -type f -name "temp" -path "*${prefix}*" 2>/dev/null | sort)
+    return 1
+}
+
+get_cpu_temp() {
+    local value
+    if command -v sensors >/dev/null 2>&1; then
+        value=$(sensors 2>/dev/null | awk '
+            /Package id 0:/ {gsub(/\+/,"",$4); gsub(/°C/,"",$4); print $4; exit}
+            /Tctl:/ {gsub(/\+/,"",$2); gsub(/°C/,"",$2); print $2; exit}
+            /Tdie:/ {gsub(/\+/,"",$2); gsub(/°C/,"",$2); print $2; exit}
+        ')
+        if [[ -n "${value:-}" && "$value" =~ ^-?[0-9]+(\.[0-9]+)?$ ]]; then
+            to_celsius "$value"
+            return
+        fi
+    fi
+
+    if value=$(read_sys_thermal "cpu" 2>/dev/null); then
+        to_celsius "$value"
+        return
+    fi
+
+    echo "N/A"
+}
+
+get_gpu_load() {
+    local value
+    for path in /sys/class/drm/card*/device/gpu_busy_percent; do
+        if [[ -r "$path" ]]; then
+            value=$(<"$path")
+            if [[ -n "${value:-}" && "$value" =~ ^[0-9]+$ ]]; then
+                printf "%s%%" "$value"
+                return
+            fi
+        fi
+    done
+
+    if command -v nvidia-smi >/dev/null 2>&1; then
+        value=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits 2>/dev/null | head -n1)
+        if [[ -n "${value:-}" && "$value" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+            printf "%s%%" "${value%.*}"
+            return
+        fi
+    fi
+
+    echo "N/A"
+}
+
+get_gpu_temp() {
+    local value
+    if command -v nvidia-smi >/dev/null 2>&1; then
+        value=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits 2>/dev/null | head -n1)
+        if [[ -n "${value:-}" && "$value" =~ ^[0-9]+(\.[0-9]+)?$ ]]; then
+            to_celsius "$value"
+            return
+        fi
+    fi
+
+    if command -v sensors >/dev/null 2>&1; then
+        value=$(sensors 2>/dev/null | awk '
+            /edge:/ {gsub(/\+/,"",$2); gsub(/°C/,"",$2); print $2; exit}
+            /junction:/ {gsub(/\+/,"",$2); gsub(/°C/,"",$2); print $2; exit}
+            /temp1:/ && /amdgpu/ {gsub(/\+/,"",$2); gsub(/°C/,"",$2); print $2; exit}
+        ')
+        if [[ -n "${value:-}" && "$value" =~ ^-?[0-9]+(\.[0-9]+)?$ ]]; then
+            to_celsius "$value"
+            return
+        fi
+    fi
+
+    if value=$(read_sys_thermal "gpu" 2>/dev/null); then
+        to_celsius "$value"
+        return
+    fi
+
+    echo "N/A"
+}
+
+mode=${1:-}
+
+case "$mode" in
+    cpu)
+        get_cpu_temp
+        ;;
+    gpu)
+        get_gpu_temp
+        ;;
+    gpu-load)
+        get_gpu_load
+        ;;
+    *)
+        printf "Usage: %s [cpu|gpu|gpu-load]\n" "${0##*/}"
+        exit 1
+        ;;
+esac

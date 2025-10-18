@@ -51,6 +51,6 @@ choose_icon() {
 
 # Получение текущей яркости и отображение полоски
 current_brightness=$(get_brightness)
-bar=$(render_bar "$current_brightness")
+# bar=$(render_bar "$current_brightness")
 icon=$(choose_icon)
-echo "$icon $current_brightness% $bar"
+echo "$current_brightness% $icon $bar"

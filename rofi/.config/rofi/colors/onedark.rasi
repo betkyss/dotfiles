@@ -1,16 +1,14 @@
 /**
- *
- * Author : Aditya Shakya (adi1090x)
- * Github : @adi1090x
- * 
- * Colors
- **/
+ * One Dark (Andrei Graphite 2424 Acid50) — Rofi palette
+ * Based on provided tokens; only needed keys are defined.
+ */
 
 * {
-    background:     #1E2127FF;
-    background-alt: #282B31FF;
-    foreground:     #FFFFFFFF;
-    selected:       #61AFEFFF;
-    active:         #98C379FF;
-    urgent:         #E06C75FF;
+    background:     #242424FF; /* primary.background */
+    background-alt: #313B52FF; /* dim.black (slightly lighter alt) */
+    foreground:     #A5B0C3FF; /* primary.foreground */
+    selected:       #71A0D0FF; /* normal.blue for selection */
+    active:         #A1CA7FFF; /* normal.green */
+    urgent:         #D64956FF; /* normal.red */
+    border:         #505050FF; /* shared border color */
 }

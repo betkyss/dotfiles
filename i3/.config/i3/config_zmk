@@ -21,7 +21,7 @@ exec_always --no-startup-id ~/.config/i3/bin/picom-launch.sh
 exec_always --no-startup-id xset r rate 220 30
 
 # exec --no-startup-id setxkbmap -layout 'us,ru' -option 'grp:alt_shift_toggle,grp_led:scroll'
-exec_always --no-startup-id ~/.config/i3/bin/setxkbmap-layout.sh both grp:alt_shift_toggle,grp_led:scroll
+exec_always --no-startup-id ~/.config/i3/bin/setxkbmap-layout.sh both
 exec --no-startup-id ~/.local/bin/toggle_blind_mode.sh
 
 # i3 system options
@@ -32,8 +32,8 @@ exec --no-startup-id nm-applet
 # Notification daemon
 exec_always --no-startup-id dunst
 
-# External monitor prefer external display on startup
-exec_always --no-startup-id ~/.local/bin/external-monitor-mirror.sh --prefer-external
+# Keep session awake when lid is closed while the external monitor is active
+exec --no-startup-id systemd-inhibit --what=handle-lid-switch --who="i3" --why="External monitor in use" sleep infinity
 
 # Polybar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
@@ -74,7 +74,8 @@ client.focused_inactive #242424 #242424 #242424 #242424   #242424
 # --- KEYBINDINGS: LAUNCHING APPS
 # -----------------------------------------------------------------------------
 # Start a terminal
-bindsym $mod+Shift+Return exec alacritty
+# bindsym $mod+Shift+Return exec alacritty
+bindsym $mod+n exec alacritty
 # bindsym $mod+Shift+Return exec kitty --config /home/q/.config/kitty/kitty-onedark.conf
 
 # Program launcher (rofi)
@@ -86,18 +87,22 @@ bindsym $mod+c exec "bash ~/.config/rofi/launchers/rofi-clipboard.sh"
 
 bindsym $mod+Shift+m exec --no-startup-id ~/.local/bin/external-monitor-mirror.sh
 
+
 exec_always --no-startup-id /home/q/.local/share/voice-whisper/venv/bin/python /home/q/.local/share/voice-whisper/voice_whisper_daemon.py daemon --preroll-ms 750 --keepalive-sec 20
 bindsym $mod+d exec --no-startup-id /home/q/.local/bin/voice-whisper.sh
 bindsym $mod+Shift+d exec --no-startup-id /home/q/.local/share/voice-whisper/venv/bin/python /home/q/.local/share/voice-whisper/voice_whisper_daemon.py client-cancel
 
+bindsym $mod+F11 exec --no-startup-id ~/.config/i3/bin/setxkbmap-layout.sh ru
+bindsym $mod+F12 exec --no-startup-id ~/.config/i3/bin/setxkbmap-layout.sh us
+
 
 # Custom application shortcuts
-bindsym $mod+Shift+f exec firefox
+# bindsym $mod+Shift+f exec firefox
 # bindsym $mod+Shift+f exec zen-browser
-bindsym $mod+Shift+o exec obsidian
-bindsym $mod+Shift+t exec Telegram
-bindsym $mod+Shift+b exec alacritty -t BluetUI -e bluetui
-bindsym $mod+Shift+a exec "AmneziaVPN"
+# bindsym $mod+Shift+o exec obsidian
+# bindsym $mod+Shift+t exec Telegram
+# bindsym $mod+Shift+b exec alacritty -t BluetUI -e bluetui
+# bindsym $mod+Shift+a exec "AmneziaVPN"
 # bindsym $mod+Shift+m exec "thunderbird"
 
 # Screenshot tool
@@ -112,6 +117,8 @@ bindsym F1 exec bash ~/.local/bin/flameshot_clipboard
 # bindsym $mod+i exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%+
 # bindsym $mod+o exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
+
+
 # Brightness control
 # bindsym $mod+Shift+u exec light -U 10
 # bindsym $mod+Shift+i exec light -A 10
@@ -120,18 +127,17 @@ bindsym F1 exec bash ~/.local/bin/flameshot_clipboard
 # bindsym $mod+Shift+y exec ~/.local/bin/toggle_redshift.sh
 
 # Touchpad toggle
-bindsym $mod+Shift+i exec --no-startup-id ~/.config/i3/bin/wg-toggle.sh
 bindsym $mod+F6 exec bash ~/.local/bin/touchpad_toggle
 
 # Kill X session
-bindsym $mod+Escape exec pkill x
+# bindsym $mod+Escape exec pkill x
 
 
 # -----------------------------------------------------------------------------
 # --- KEYBINDINGS: WINDOW & LAYOUT MANAGEMENT
 # -----------------------------------------------------------------------------
 # Kill focused window
-bindsym $mod+Shift+q kill
+bindsym F12 kill
 
 # Change focus (vim-style)
 bindsym $mod+h focus left
@@ -154,8 +160,8 @@ bindsym $mod+f fullscreen toggle
 
 # Change container layout
 bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+# bindsym $mod+w layout tabbed
+# bindsym $mod+e layout toggle split
 
 # Toggle tiling/floating
 bindsym $mod+Shift+space floating toggle
@@ -195,35 +201,29 @@ set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
 
 # Switch to workspace
-bindsym $mod+1 workspace number $ws1
-bindsym $mod+2 workspace number $ws2
-bindsym $mod+3 workspace number $ws3
-bindsym $mod+4 workspace number $ws4
-bindsym $mod+5 workspace number $ws5
-bindsym $mod+6 workspace number $ws6
-bindsym $mod+7 workspace number $ws7
-bindsym $mod+8 workspace number $ws8
-bindsym $mod+9 workspace number $ws9
-bindsym $mod+0 workspace number $ws10
+bindsym $mod+w workspace number $ws1
+bindsym $mod+e workspace number $ws2
+bindsym $mod+r workspace number $ws3
+bindsym $mod+t workspace number $ws4
+bindsym $mod+y workspace number $ws5
+bindsym $mod+u workspace number $ws6
+bindsym $mod+i workspace number $ws7
+bindsym $mod+o workspace number $ws8
 
 # Move focused container to workspace
-bindsym $mod+Shift+1 move container to workspace number $ws1
-bindsym $mod+Shift+2 move container to workspace number $ws2
-bindsym $mod+Shift+3 move container to workspace number $ws3
-bindsym $mod+Shift+4 move container to workspace number $ws4
-bindsym $mod+Shift+5 move container to workspace number $ws5
-bindsym $mod+Shift+6 move container to workspace number $ws6
-bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
-bindsym $mod+Shift+9 move container to workspace number $ws9
-bindsym $mod+Shift+0 move container to workspace number $ws10
+bindsym $mod+Shift+w move container to workspace number $ws1
+bindsym $mod+Shift+e move container to workspace number $ws2
+bindsym $mod+Shift+r move container to workspace number $ws3
+bindsym $mod+Shift+t move container to workspace number $ws4
+bindsym $mod+Shift+y move container to workspace number $ws5
+bindsym $mod+Shift+u move container to workspace number $ws6
+bindsym $mod+Shift+i move container to workspace number $ws7
+bindsym $mod+Shift+o move container to workspace number $ws8
 
 # Assign specific applications to workspaces
-for_window [class="AmneziaVPN"] move to workspace $ws10
+for_window [class="AmneziaVPN"] move to workspace $ws8
 for_window [class="AmneziaVPN"] floating enable
 for_window [title="BluetUI"] floating enable
 
@@ -236,13 +236,13 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # Restart i3 inplace
-bindsym $mod+Shift+r restart
+bindsym F6 restart
 
 # i3status refresh (if you use it)
 set $refresh_i3status killall -SIGUSR1 i3status
 
 # Resize mode
-bindsym $mod+r mode "resize"
+# bindsym $mod+r mode "resize"
 mode "resize" {
     # These bindings trigger as long as you are in this mode
     bindsym h resize shrink width 10 px or 10 ppt

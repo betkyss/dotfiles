@@ -1,0 +1,33 @@
+#!/bin/bash
+set -euo pipefail
+
+INTERFACE="arch-vpn"
+SERVICE="wg-quick@${INTERFACE}.service"
+COLOR="#AAB2BE"
+ICON_ON=""
+ICON_OFF=""
+
+print_status() {
+    local state="${1:-}"
+
+    if [[ -z "$state" ]]; then
+        state=$(/bin/systemctl show "$SERVICE" --property=ActiveState --value 2>/dev/null || echo "unknown")
+    fi
+
+    case "$state" in
+        active|activating)
+            printf '%%{F%s}%s%%{F-}\n' "$COLOR" "$ICON_ON"
+            ;;
+        *)
+            printf '%%{F%s}%s%%{F-}\n' "$COLOR" "$ICON_OFF"
+            ;;
+    esac
+}
+
+print_status
+
+/bin/systemctl show "$SERVICE" --property=ActiveState --value --monitor 2>/dev/null | \
+while IFS= read -r state; do
+    [[ -z "$state" ]] && continue
+    print_status "$state"
+done
