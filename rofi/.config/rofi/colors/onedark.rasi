@@ -4,7 +4,7 @@
  */
 
 * {
-    background:     #242424FF; /* primary.background */
+    background:     #1E1E1EFF; /* primary.background */
     background-alt: #313B52FF; /* dim.black (slightly lighter alt) */
     foreground:     #A5B0C3FF; /* primary.foreground */
     selected:       #71A0D0FF; /* normal.blue for selection */

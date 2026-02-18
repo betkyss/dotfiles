@@ -1,3 +1,7 @@
+[env]
+TERM = "xterm-256color"
+COLORTERM = "truecolor"
+
 [colors.bright]
 black = "#445371"
 blue = "#71A0D0"
@@ -33,9 +37,9 @@ white = "#E2E8F2"
 yellow = "#FFD176"
 
 [colors.primary]
-background = "#242424"
+background = "#1E1E1E"
 dim_foreground = "#B1B1B1"
-foreground = "#A5B0C3"
+foreground = "#ABB2BF"
 
 [colors.search.matches]
 background = "#88C0D0"
@@ -50,7 +54,7 @@ cursor = "#D3DCED"
 text = "#293244"
 
 [font]
-size = 9
+size = 12
 
 [font.bold]
 family = "RobotoMono"
@@ -96,3 +100,8 @@ action = "Paste"
 # [selection]
 # save_to_clipboard = true
 
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001b\r"

@@ -1,8 +1,28 @@
 #!/bin/bash
 set -euo pipefail
 
-INTERFACE="arch-vpn"
-SERVICE="wg-quick@${INTERFACE}.service"
+CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/i3/vpn-toggle.conf"
+
+VPN_TYPE="wg" # wg or xray
+WG_INTERFACE="arch-vpn"
+XRAY_PROFILE=""
+
+if [[ -f "$CONFIG_FILE" ]]; then
+  # shellcheck disable=SC1090
+  . "$CONFIG_FILE"
+fi
+
+case "$VPN_TYPE" in
+    wg)
+        SERVICE="wg-quick@${WG_INTERFACE}.service"
+        ;;
+    xray)
+        SERVICE="xray@${XRAY_PROFILE}.service"
+        ;;
+    *)
+        SERVICE=""
+        ;;
+esac
 COLOR="#AAB2BE"
 ICON_ON=""
 ICON_OFF=""
@@ -11,7 +31,11 @@ print_status() {
     local state="${1:-}"
 
     if [[ -z "$state" ]]; then
-        state=$(/bin/systemctl show "$SERVICE" --property=ActiveState --value 2>/dev/null || echo "unknown")
+        if [[ -z "$SERVICE" ]]; then
+            state="unknown"
+        else
+            state=$(/bin/systemctl show "$SERVICE" --property=ActiveState --value 2>/dev/null || echo "unknown")
+        fi
     fi
 
     case "$state" in
@@ -25,6 +49,10 @@ print_status() {
 }
 
 print_status
+
+if [[ -z "$SERVICE" ]]; then
+    exit 0
+fi
 
 /bin/systemctl show "$SERVICE" --property=ActiveState --value --monitor 2>/dev/null | \
 while IFS= read -r state; do

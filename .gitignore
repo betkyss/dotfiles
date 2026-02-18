@@ -1,1 +1,7 @@
 zsh/.zshrc
+*.bak
+__pycache__/
+*.pyc
+*.swp
+*.swo
+.DS_Store

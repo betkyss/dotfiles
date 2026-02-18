@@ -1,56 +1,123 @@
 #!/bin/bash
+exec 2>/dev/null
 
-# Конфигурация
-MAX_BARS=5  # Максимальное количество сегментов в полоске
-BRIGHTNESS_STEP=5  # Шаг изменения яркости
+BRIGHTNESS_STEP=10
+MIN_BRIGHTNESS=10
+MAX_BRIGHTNESS=100
+STATE_FILE="/tmp/brightness_state"
+NIGHT_FILE="/tmp/redshift_status"
+FIFO="/tmp/polybar_light_fifo"
 
-# Функция для получения текущей яркости
-get_brightness() {
-    light -G | awk '{print int(($1 + 5) / 10) * 10}'
-}
-
-# Функция для установки яркости
-set_brightness() {
-    local value=$1
-    light -S "$value"
-}
-
-# Генерация полоски для отображения яркости
-render_bar() {
-    local percentage=$1
-    local bars=""
-    local filled=$((percentage * MAX_BARS / 100))
-
-    for ((i=1; i<=MAX_BARS; i++)); do
-        if ((i <= filled)); then
-            bars+="="
+# Инициализация
+init_state() {
+    if [ ! -f "$STATE_FILE" ]; then
+        if command -v light &>/dev/null; then
+            light -G | awk '{printf "%d", $1}' > "$STATE_FILE"
         else
-            bars+="-"
+            echo "100" > "$STATE_FILE"
         fi
-    done
-    echo "$bars"
-}
-
-# Проверка состояния ночного режима через redshift_status
-is_night_mode_on() {
-    if [ -f /tmp/redshift_status ]; then
-        echo "true"
-    else
-        echo "false"
     fi
 }
 
-# Выбор иконки в зависимости от ночного режима
-choose_icon() {
-    if [ "$(is_night_mode_on)" == "true" ]; then
-        echo ""  # Луна
-    else
-        echo ""  # Солнце
+get_brightness() {
+    init_state
+    cat "$STATE_FILE"
+}
+
+save_brightness() {
+    echo "$1" > "$STATE_FILE"
+}
+
+is_night_mode() {
+    [ -f "$NIGHT_FILE" ]
+}
+
+# Уведомить polybar об обновлении
+notify_update() {
+    echo > "$FIFO"
+}
+
+# Применить всё атомарно
+apply_all() {
+    local brightness=$(get_brightness)
+    local redshift_brightness=$(awk "BEGIN {printf \"%.2f\", $brightness / 100}")
+    local temp=6500
+
+    is_night_mode && temp=3500
+
+    # Внешние мониторы: redshift управляет и температурой и яркостью
+    redshift -P -O "$temp" -b "$redshift_brightness"
+
+    # Встроенный монитор: настоящий backlight
+    if command -v light &>/dev/null && light -L 2>/dev/null | grep -q backlight; then
+        light -S "$brightness"
     fi
 }
 
-# Получение текущей яркости и отображение полоски
-current_brightness=$(get_brightness)
-# bar=$(render_bar "$current_brightness")
-icon=$(choose_icon)
-echo "$current_brightness% $icon $bar"
+brightness_up() {
+    local current=$(get_brightness)
+    local new=$((current + BRIGHTNESS_STEP))
+    ((new > MAX_BRIGHTNESS)) && new=$MAX_BRIGHTNESS
+    save_brightness "$new"
+    apply_all
+    notify_update
+}
+
+brightness_down() {
+    local current=$(get_brightness)
+    local new=$((current - BRIGHTNESS_STEP))
+    ((new < MIN_BRIGHTNESS)) && new=$MIN_BRIGHTNESS
+    save_brightness "$new"
+    apply_all
+    notify_update
+}
+
+toggle_night_mode() {
+    if is_night_mode; then
+        rm "$NIGHT_FILE"
+    else
+        touch "$NIGHT_FILE"
+    fi
+    apply_all
+    notify_update
+}
+
+print_status() {
+    local brightness=$(get_brightness)
+    if is_night_mode; then
+        echo "${brightness}% "
+    else
+        echo "${brightness}% "
+    fi
+}
+
+# Обработка аргументов
+case "$1" in
+    up)
+        brightness_up
+        exit 0
+        ;;
+    down)
+        brightness_down
+        exit 0
+        ;;
+    set)
+        save_brightness "$2"
+        apply_all
+        notify_update
+        exit 0
+        ;;
+    toggle)
+        toggle_night_mode
+        exit 0
+        ;;
+esac
+
+# Режим tail - polybar запускает этот скрипт
+init_state
+[ -p "$FIFO" ] || mkfifo "$FIFO"
+print_status
+
+while read < "$FIFO"; do
+    print_status
+done
